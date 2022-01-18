@@ -14,8 +14,9 @@ public class Atzimju_kalkulators {
 		boolean pari = false;
 		for(int i=0; i<=prieksmeti-1; i++){
 		do{
-		
+		    do{
 		    svars[i] = Integer.parseInt(JOptionPane.showInputDialog("Kads bus svarigums "+Macibas[i]+" ir iespejami but tik svarigai "+svarigums));
+		    }while(svars[i]>svarigums);
 		    pags = svarigums;
 		    svarigums = svarigums - svars[i];
 		    
@@ -23,7 +24,7 @@ public class Atzimju_kalkulators {
 		    	svarigums = pags;
 		    	}
 			
-		}while(svarigums<0 || svarigums>100 || svars[i]<0 || svars[i]>100);
+		}while(svars[i]<0 || svars[i]>100);
 		}
 		}
 
