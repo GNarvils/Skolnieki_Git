@@ -1,6 +1,5 @@
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
-
 public class Atzimju_kalkulators {
 	static int skaitsS(int skaits){
 		do {
@@ -10,8 +9,8 @@ public class Atzimju_kalkulators {
 	}
 	static int skaitsK(int skaits){
 		do {
-			skaits = Integer.parseInt(JOptionPane.showInputDialog("Kāds būs kritēriju skaits?"));
-		}while(skaits<1);
+		skaits = Integer.parseInt(JOptionPane.showInputDialog("Kāds būs kritēriju skaits?"));
+	    }while(skaits<1);
 		return skaits;
 	}
 	static String[] skoleni(String masivs[]){
@@ -60,10 +59,10 @@ public class Atzimju_kalkulators {
 		}
 	}
 	public static void main(String[] args) {                 
-		int studSk = 0, kritSk = 0;
-	    skaitsS(studSk);
+		int studSk=0,kritSk=0;
+	   studSk = skaitsS(studSk);
+	   kritSk = skaitsK(kritSk);
 		String[] studenti = new String[studSk];
-	    skaitsK(kritSk);
 		String[] kriteriji = new String[kritSk];
 		int[] kriterijaSvars = new int[kritSk];
 		int[][] kriterijaVertejums = new int[studSk][kritSk];
@@ -80,7 +79,6 @@ public class Atzimju_kalkulators {
 			}
 		}
 		rezultats(studenti, kriteriji, kriterijaVertejums, kriterijaSvars, semestraVertejums);
-		izvadit(studenti, kriteriji, kriterijaVertejums, kriterijaSvars, semestraVertejums);
-		
+		izvadit(studenti, kriteriji, kriterijaVertejums, kriterijaSvars, semestraVertejums);		
 }
 }
