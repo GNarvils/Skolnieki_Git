@@ -1,58 +1,45 @@
 import java.text.DecimalFormat;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class Atzimju_kalkulators {
-	public static void main(String[] args) {
-		int studSk, kritSk;
-		Scanner scan = new Scanner(System.in);
-		DecimalFormat df = new DecimalFormat("0.#");
-		     
+	static int skaitsS(int skaits){
 		do {
-			System.out.println("Cik studentiem aprēķināsi gala vērtējumu?");
-			studSk = scan.nextInt();
-		}while(studSk<1);
-		String[] studenti = new String[studSk];
-		
+		skaits = Integer.parseInt(JOptionPane.showInputDialog("Kāds būs skolēnu skaits?"));
+	    }while(skaits<1);
+		return skaits;
+	}
+	static int skaitsK(int skaits){
 		do {
-			System.out.println("Kāds būs kritēriju skaits?");
-			kritSk = scan.nextInt();
-		}while(kritSk<1);
-		String[] kriteriji = new String[kritSk];
-		int[] kriterijaSvars = new int[kritSk];
-		int[][] kriterijaVertejums = new int[studSk][kritSk];
-		double[] semestraVertejums = new double[studSk];
-		
-		//Ievada studentu vārdus, uzvārdus
-		for(int i=0; i<studenti.length; i++) {
-			System.out.println("Ievadi "+(i+1)+". studentu");
-			studenti[i] = scan.next();
+			skaits = Integer.parseInt(JOptionPane.showInputDialog("Kāds būs kritēriju skaits?"));
+		}while(skaits<1);
+		return skaits;
+	}
+	static String[] skoleni(String masivs[]){
+		for(int i=0; i<masivs.length; i++) {
+			masivs[i] = JOptionPane.showInputDialog("Ievadi "+(i+1)+". studentu");
 		}
-		
-		//Definē kritērijus
-		int maxSvars = 100;
-		for(int i=0; i<kriteriji.length; i++) {
-			System.out.println("Ievadi "+(i+1)+". kritēriju");
-			kriteriji[i] = scan.next();
-			//Norāda katra kritērija svaru
-			do {
-				System.out.println("Ievadi "+(i+1)+". kritērija svaru");
-				kriterijaSvars[i] = scan.nextInt();
-			}while(kriterijaSvars[i]>maxSvars || 
-					kriterijaSvars[i]<1 || 
-					(kriterijaSvars[0]==100 && kritSk > 1));
-			maxSvars -= kriterijaSvars[i];
-		}
-		
-		//Norāda vērtējumu kādu ieguvis katrs students par katru kritēriju
-		for(int i=0; i<kriterijaVertejums.length; i++) {
-			for(int j=0; j<kriterijaVertejums[i].length; j++) {
-				do {
-					System.out.println("Ievadi "+studenti[i]+" vērtējumu par kritēriju "+kriteriji[j]);
-					kriterijaVertejums[i][j] = scan.nextInt();
-				}while(kriterijaVertejums[i][j]<0 || kriterijaVertejums[i][j]>10);
-			}
-		}
-		
+		return masivs;
+	}
+	static String[] kriteriji(String masivs[], int i){
+		masivs[i] = JOptionPane.showInputDialog("Ievadi "+(i+1)+". kritēriju");
+		return masivs;
+	}
+	static int[] svars(int masivs[], int i, int svars, int sk){
+		do {
+			masivs[i] = Integer.parseInt(JOptionPane.showInputDialog("Ievadi "+(i+1)+". kritērija svaru"));
+		}while(masivs[i]>svars || 
+				masivs[i]<1 || 
+				(masivs[0]==100 && sk > 1));
+		svars -= masivs[i];
+		return masivs;
+	}
+	static int[][] kriterijasV(int masivs[][], int i, int j, String studenti[],String kriteriji[] ){
+		do {
+			masivs[i][j] = Integer.parseInt(JOptionPane.showInputDialog("Ievadi "+studenti[i]+" vērtējumu par kritēriju "+kriteriji[j]));
+		}while(masivs[i][j]<0 || masivs[i][j]>10);
+		return masivs;
+	}
+	static double[] rezultats(String studenti[], String kriteriji[],int kriterijaVertejums[][],int kriterijaSvars[], double[] semestraVertejums){
 		double rezultats;
 		for(int i=0; i<studenti.length; i++) {
 			rezultats=0;
@@ -61,13 +48,39 @@ public class Atzimju_kalkulators {
 			}
 			semestraVertejums[i] = rezultats;
 		}
-		
+		return semestraVertejums;
+	}
+	static void izvadit(String studenti[],String kriteriji[],int kriterijaVertejums[][],int kriterijaSvars[],double[] semestraVertejums){
+		DecimalFormat df = new DecimalFormat("0.#");
 		for(int i=0; i<studenti.length; i++) {	
 			for(int j=0; j<kriteriji.length; j++) {
-				System.out.println("Studenta "+studenti[i]+" vērtējums par kritēriju "+kriteriji[j]+" ir "+kriterijaVertejums[i][j]+", kura svars ir "+kriterijaSvars[j]);
+				JOptionPane.showMessageDialog(null, "Studenta "+studenti[i]+" vērtējums par kritēriju "+kriteriji[j]+" ir "+kriterijaVertejums[i][j]+", kura svars ir "+kriterijaSvars[j] );
 			}
-			System.out.println("Semestra vērtējums ir "+df.format(semestraVertejums[i])+"\n");
+			JOptionPane.showMessageDialog(null, "Semestra vērtējums ir "+df.format(semestraVertejums[i])+"\n");
 		}
-		scan.close();
 	}
+	public static void main(String[] args) {                 
+		int studSk = 0, kritSk = 0;
+	    skaitsS(studSk);
+		String[] studenti = new String[studSk];
+	    skaitsK(kritSk);
+		String[] kriteriji = new String[kritSk];
+		int[] kriterijaSvars = new int[kritSk];
+		int[][] kriterijaVertejums = new int[studSk][kritSk];
+		double[] semestraVertejums = new double[studSk];		
+		skoleni(studenti);
+		int maxSvars = 100;
+		for(int i=0; i<kriteriji.length; i++) {
+			kriteriji(kriteriji, i);
+			svars(kriterijaSvars, i, maxSvars, kritSk);
+		}
+		for(int i=0; i<kriterijaVertejums.length; i++) {
+			for(int j=0; j<kriterijaVertejums[i].length; j++) {
+				kriterijasV(kriterijaVertejums, i, j, studenti, kriteriji);
+			}
+		}
+		rezultats(studenti, kriteriji, kriterijaVertejums, kriterijaSvars, semestraVertejums);
+		izvadit(studenti, kriteriji, kriterijaVertejums, kriterijaSvars, semestraVertejums);
+		
+}
 }
